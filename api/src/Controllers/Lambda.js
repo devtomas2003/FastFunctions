@@ -1,4 +1,4 @@
-export function CreateFunction(req, res){
+export async function CreateLambda(req, res){
     res.status(200).json({
         "hello": "world"
     });

@@ -7,6 +7,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Teste {
-  nome String @unique
+model IAC {
+  id String @unique
+  name String
+  username String
+  password String
+  FunctionsMetadata FunctionsMetadata[]
+}
+
+model FunctionsMetadata {
+  id String @unique
+  name String @unique
+  FunctionsDispatcher FunctionsDispatcher[]
+  FunctionsInvokers FunctionsInvokers[]
+  FunctionsWorkspace FunctionsWorkspace[]
+  userId String
+  IAC IAC @relation(fields: [userId], references: [id])
+}
+
+model FunctionsWorkspace {
+  id String @unique
+  name String @unique
+  code String
+  functionId String
+  FunctionsMetadata FunctionsMetadata @relation(fields: [functionId], references: [id])
+}
+
+model FunctionsInvokers {
+  id String @unique
+  key String
+  functionId String
+  FunctionsMetadata FunctionsMetadata @relation(fields: [functionId], references: [id])
+}
+
+model FunctionsDispatcher {
+  id String @unique
+  webHookEndpoint String
+  method String
+  FunctionsDispatcherAuth String
+  functionId String
+  FunctionsMetadata FunctionsMetadata @relation(fields: [functionId], references: [id])
+  FunctionsDispatcherContent FunctionsDispatcherContent[]
+}
+
+model FunctionsDispatcherContent {
+  id String @unique
+  key String
+  value String
+  FunctionsDispatcherId String
+  FunctionsDispatcher FunctionsDispatcher @relation(fields: [id], references: [id])
 }
