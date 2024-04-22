@@ -17,7 +17,7 @@ model IAC {
 
 model FunctionsMetadata {
   id String @unique
-  name String @unique
+  name String
   FunctionsDispatcher FunctionsDispatcher[]
   FunctionsInvokers FunctionsInvokers[]
   FunctionsWorkspace FunctionsWorkspace[]
