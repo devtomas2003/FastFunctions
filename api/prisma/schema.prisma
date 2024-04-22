@@ -20,17 +20,9 @@ model FunctionsMetadata {
   name String
   FunctionsDispatcher FunctionsDispatcher[]
   FunctionsInvokers FunctionsInvokers[]
-  FunctionsWorkspace FunctionsWorkspace[]
   userId String
+  gitPath String
   IAC IAC @relation(fields: [userId], references: [id])
-}
-
-model FunctionsWorkspace {
-  id String @unique
-  name String @unique
-  code String
-  functionId String
-  FunctionsMetadata FunctionsMetadata @relation(fields: [functionId], references: [id])
 }
 
 model FunctionsInvokers {

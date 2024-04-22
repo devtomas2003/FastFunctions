@@ -1,12 +1,20 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+import Queue from "../libs/Queue";
 
 export async function CreateFastFunction(req, res){
     const functionName = req.body.functionName;
+    const gitPath = req.body.gitPath;
 
     if(!functionName){
         return res.status(400).json({
             "message": "Function name is missing"
+        });
+    }
+
+    if(!gitPath){
+        return res.status(400).json({
+            "message": "Git Path is missing"
         });
     }
 
@@ -17,6 +25,7 @@ export async function CreateFastFunction(req, res){
         data: {
             name: functionName,
             id: srn,
+            gitPath,
             IAC: {
                 connect: {
                     id: req.iacId
@@ -25,20 +34,10 @@ export async function CreateFastFunction(req, res){
         }
     });
 
-    await prisma.functionsWorkspace.create({
-        data: {
-            name: "main.js",
-            id: srn + ":main.js",
-            FunctionsMetadata: {
-                connect: {
-                    id: srn
-                }
-            },
-            code: "console.log('hello world');"
-        }
-    });
-    
+    await Queue.add('CloneRepo', { gitPath });
+
     res.status(200).json({
-        srn
+        srn,
+        "message": "Function created successfully. In background we are clonning your repo. Please check the status!"
     });
 }

@@ -7,9 +7,13 @@
   "dependencies": {
     "@prisma/client": "^5.12.1",
     "bcrypt": "^5.1.1",
+    "bull": "^4.12.2",
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "tslib": "^2.6.2",
+    "uuid": "^9.0.1",
+    "zip-a-folder": "^3.1.6"
   },
   "devDependencies": {
     "nodemon": "^3.1.0",
@@ -17,6 +21,7 @@
     "sucrase": "^3.35.0"
   },
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "queue": "nodemon src/queue.js"
   }
 }
